@@ -20,11 +20,7 @@ def home():
                 return render_template('index.html', error="Please enter a YouTube URL")
 
             yt = YouTube(video_url)
-            stream = (yt.streams
-                     .filter(progressive=True, file_extension='mp4')
-                     .order_by('resolution')
-                     .desc()
-                     .first())
+            stream = yt.get_highest_resolution()
 
             if not stream:
                 return render_template('index.html', error="No suitable video stream found")
